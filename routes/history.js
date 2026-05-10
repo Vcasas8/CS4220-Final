@@ -1,0 +1,58 @@
+/* Author: Krystal Lo
+Objectives for history.js
+
+-> History Functionality
+    + GET /history
+        - Accepts a required query parameter 'type' with the value 'keywords'
+            - Handles validation if the 'type' is not provided and is not 'keywords'
+    + If the value is 'keywords':
+        -  Is able to retrieve all saved keywords from the 'SearchHistoryKeyword' collection in MongoDB and return them in clean JSON format that does not include the Mongo '_id'
+        */
+
+import express from 'express';
+import db from '../services/db.js' 
+
+const router = express.Router();
+
+// function to display search history
+async function displaySearchHistory() {
+    try {
+        const searchHistory = await db.find({ collection: 'SearchHistoryKeyword' });
+        
+        // remove the '_id' field from each document
+        const cleanSearchHistory = searchHistory.map((doc) => {
+            const { _id, ...rest } = doc;
+            return rest;
+        });
+
+        return cleanSearchHistory;
+    } catch (error) {
+        throw new Error('Error occurred while fetching search history');
+    }
+}
+
+// GET /history
+router.get('/history', async (req, res) => {
+    try {
+        // validate query parameter 'type'
+        const { type } = req.query;
+
+        // handles validation if type is not provided 
+        if (!type) {
+            return res.status(400).json({ error: 'Query parameter "type" is required' });
+        }
+            
+        // handles validation if 'type' is not 'keywords'
+        if (type !== 'keywords') {
+            return res.status(400).json({ error: 'Query parameter "type" must be "keywords"' });
+        }
+
+        // retrieve the search history
+        const searchHistory = await displaySearchHistory();
+        res.json(searchHistory);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
+
+export default router;
