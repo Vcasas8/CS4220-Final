@@ -1,22 +1,21 @@
-"name": "free-to-play",
+{
+  "name": "free-to-play",
   "version": "1.0.0",
   "type": "module",
-  "description": "CLI app using Free-To-Play Games API",
-  "main": "cli.js",
   "description": "Node.js Express server app using Free-To-Play Games API and MongoDB Atlas",
-  "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node cli.js",
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "echo \"No tests yet\""
   },
   "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vcasas8/CS4220-Final.git"
+  },
   "dependencies": {
     "axios": "^1.7.7",
     "commander": "^14.0.3",
-    "inquirer": "^9.2.0"
     "inquirer": "^9.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
