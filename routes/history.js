@@ -17,9 +17,10 @@ const router = express.Router();
 // function to display search history
 async function displaySearchHistory() {
     try {
-        const searchHistory = await db.find({ collection: 'SearchHistoryKeyword' });
-        
-        // remove the '_id' field from each document
+        const cursor = await db.find( 'SearchHistoryKeyword' );
+
+        const searchHistory = await cursor.toArray();
+
         const cleanSearchHistory = searchHistory.map((doc) => {
             const { _id, ...rest } = doc;
             return rest;
@@ -27,12 +28,13 @@ async function displaySearchHistory() {
 
         return cleanSearchHistory;
     } catch (error) {
+        console.error('Database error:', error);
         throw new Error('Error occurred while fetching search history');
     }
 }
 
 // GET /history
-router.get('/history', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         // validate query parameter 'type'
         const { type } = req.query;
@@ -48,10 +50,11 @@ router.get('/history', async (req, res) => {
         }
 
         // retrieve the search history
-        const searchHistory = await displaySearchHistory();
+        const searchHistory = await displaySearchHistory(type);
         res.json(searchHistory);
     } catch (error) {
-        res.status(500).json({ error });
+        console.error('Route error:', error);
+        res.status(500).json({  error: 'Internal Server Error' });
     }
 });
 
