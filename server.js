@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import gamesRoutes from "./routes/games.js";
 import historyRoutes from "./routes/history.js";
 
-import { connectToDatabase } from "./services/db.js";
+import db from "./services/db.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Connect to MongoDB Atlas
-await connectToDatabase();
+await db.connect();
 
 // Routes
 app.use("/games", gamesRoutes);
