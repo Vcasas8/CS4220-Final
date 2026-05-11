@@ -12,9 +12,10 @@ Objectives for games.js
     + Stores unique search keywords in the MongoDB 'SearchHistoryKeyword' collection
 */
 
-// imported express and db instance
+// imported express and db instance for handling routes and database operations,
+// as well as the searchGamesByKeyword function for API interactions
 import express from "express";
-import mongo from "../services/db.js";
+import db from "../services/db.js";
 import { searchGamesByKeyword } from "../services/api.js";
 
 // create a router instance for games routes
