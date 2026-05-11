@@ -21,9 +21,6 @@ import { searchGamesByKeyword } from "../services/api.js";
 // create a router instance for games routes
 const router = express.Router();
 
-// initialize db instance for database operations
-const db = mongo();
-
 // GET /games route handler to search games by keyword and save unique keywords to MongoDB
 router.get("/", async (req, res) => {
     try {
