@@ -17,10 +17,13 @@ const router = express.Router();
 // function to display search history
 async function displaySearchHistory() {
     try {
+        // find all documents in the 'SearchHistoryKeyword' collection
         const cursor = await db.find( 'SearchHistoryKeyword' );
 
+        // convert the cursor to an array
         const searchHistory = await cursor.toArray();
 
+        // remove the _id field from each document
         const cleanSearchHistory = searchHistory.map((doc) => {
             const { _id, ...rest } = doc;
             return rest;
